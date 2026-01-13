@@ -1,0 +1,46 @@
+Inside Git: How It Works and the Role of the .git Folder
+Git folder is a local repo, which is created on the use of git init command. This folder keeps a record of main file, changes, branch infos.
+Basically the complete history of the code.
+
+
+
+How Git Works Internally-
+Think of Git like ordering food https://github.com/Prateek-on-git/web-dev-cohort26/tree/main
+Kitchen = Working directory
+Plate = Staging area
+Serving table = Commit
+You don’t serve everything cooking, you plate only what’s ready.
+
+
+
+Understanding the .git Folder
+There two parts. One main project file, on which we are working.
+second git folder - Git map, if you delete it, it will remove all history, commits, branches
+It contains 
+  1. Objects - all file data & history (probably encrypted, so that no one messes directly)
+  2. Refs - Branches & tags (to point and locate the files with hash code.
+  3. HEAD - where the current work is going on
+  4. Index - Staging area 
+
+
+Git Objects: Blob, Tree, Commit
+Blob - File content - Stores raw file data 
+Tree - Folder structure - file organiser
+Commit - a snapshot of the project at the current. It contains, tree, parent commit, author info, msg and timestamp
+
+
+
+
+How Git Tracks Changes
+- It doesn't track changes, it tracks snapshots. When one commit, it stores the entire project state but reuses blobs that didn't change.
+Which helps in avoiding storing duplicates.
+
+What Happens during git add and git add file.txt
+- Git reads file content, create a blob object, stores in .git/objects, updates the index (staging area) to point to that blob.
+- Nothing is commited yet.
+- Staging is like selecting blob for the next snapshot
+
+What happens during git commit and git commit -m msg
+- Git reads the index, builds a tree from staged blob to the main and point head to this commit. 
+- Commit is taking snapshot from the selected blob
+- Each blob have a unique hash to point it and find it. 
