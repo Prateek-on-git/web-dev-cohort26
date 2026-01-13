@@ -1,0 +1,78 @@
+Why Does Version Control Exist?
+
+To understand why version control systems are needed, let’s look at a common real-world scenario often called the Pen Drive Problem.
+
+The Pen Drive Problem
+Imagine you and your friend are working on the same software project.
+You make some changes to the project and copy all the files onto a pen drive. 
+You then give the pen drive to your friend so they can work on the latest version of the project.
+After making their changes, your friend copies all the files back onto the pen drive and returns back. 
+You then overwrite your local files with their version.
+
+At first, this may seem manageable, but it quickly leads to serious problems.
+
+1. Version Confusion and Data Loss
+It becomes difficult to remember:
+Which copy is the latest?
+What changes were made by whom?
+There is a high risk of accidentally overwriting newer work with an older version or losing important changes entirely.
+
+2. No Tracking or Accountability
+There is no clear way to track:
+Who made which change
+Why a change was made
+
+->If a bug appears, it’s extremely hard to identify which modification introduced it. 
+Debugging becomes guesswork. Even if your friend fixes the bug, your copy might still contain it, 
+forcing you to manually request their updated files again.
+
+3. No Concurrency (One Person Works at a Time)
+
+Only one person can work at a time because the pen drive becomes a bottleneck.
+If both of you want to work on different features simultaneously, one person must wait. 
+Even if you both keep separate copies and work independently, merging changes later is painful, comparing files line by line is a very tedious task 
+and error inducing. Two friends might fight over this ;")
+
+4. Collaboration Chaos
+The pen drive is a single point of failure:
+If it gets lost or corrupted, recent work is gone
+There is no central, reliable place to access the latest version
+Collaboration becomes inefficient and stressful
+
+How Version Control Solves These Problems
+
+Version control systems are designed specifically to eliminate these issues.
+
+1. Tracking and Accountability
+Every change is recorded as a commit.
+Each commit includes:
+Who made the change
+What was changed
+When it was changed
+Why it was changed (via commit messages)
+This makes collaboration transparent and traceable.
+
+2. Rollback and Debugging
+Version control maintains a complete history of your project.
+If a bug appears:
+You can compare versions
+Identify exactly when the bug was introduced
+Roll back to a previous working version
+Revert specific changes without affecting others
+
+
+3. Central Source of Truth
+Instead of a pen drive, version control uses a shared remote repository.
+Both you and your friend can:
+Push your changes to the central repository
+Pull the latest updates made by others
+Everyone always has access to the latest version of the project.
+
+4. Concurrency and Intelligent Merging
+With version control, both developers can work simultaneously on their own local copies.
+
+When changes are shared:
+If different files or different parts of the same file are modified, the system merges them automatically
+If the same lines are modified, the system detects a conflict and lets you decide what to keep
+
+This makes parallel development safe, fast, and manageable.
