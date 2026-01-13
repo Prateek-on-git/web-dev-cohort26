@@ -1,1 +1,34 @@
 Git for Beginners: Basics and Essential Commands
+
+What is Git - Git is a Version Control System. It is used to manage versions of code across the developers working on it.
+
+Why Git is Used - To avoid code conflicts. If it is not used, code will not remain sane. For example, one developer changes or edit won't be available 
+to others to work upon in real time. The state of the program can be managed easily and if there is any issue in the code, then the previous versions 
+can be tracked and deployed if required. It also helps in keeping a record of who worked on it and when was it pushed, with what changes. This makes it 
+easier for the developers to work on it.
+
+Git Basics and Core Terminologies
+Repository - A folder for your code, config files for git to keep a record of changes.
+Add - Moves codes into staging area; Staging area is a sort of cache for git.
+Commit - Moves code from staging area to the git records
+Branch - A copy of the main code, from where one can edit/modify the code and later commit it back to the main repo
+
+Common Git Commands
+
+git init - Create a new repo
+git add <file>   - stage a file
+git add . - Stage all changes
+git commit -m "msg" - commit staged changes with a msg
+git commit -am "msg" - stage track files + commit //works only for tracked files.
+git diff            -shows the changes you have made but not staged yet
+git reset --soft    - moves head back but keeps all changes staged
+git reset --hard    -  moves head back and delete all changes
+git revert <commited hash> - creates a new commit that undoes the specified commit hash
+
+Git working -
+Think of Git like ordering food 
+Kitchen = Working directory
+Plate = Staging area
+Serving table = Commit
+
+You don’t serve everything cooking, you plate only what’s ready.
