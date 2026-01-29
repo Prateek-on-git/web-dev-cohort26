@@ -1,1 +1,252 @@
 
+
+## 1. What a browser actually is (beyond “it opens websites”)
+
+A browser is a **client application** that:
+
+* Talks to servers over the internet (HTTP/HTTPS)
+* Downloads resources (HTML, CSS, JS, images, fonts, video…)
+* Interprets those resources according to web standards
+* Builds an internal model of the page
+* Turns that model into pixels on your screen
+* Handles user input (clicks, typing, scrolling)
+
+In short:
+**Browser = network client + code interpreter + graphics engine + UI app**
+
+---
+
+## 2. Main parts of a browser (high-level)
+
+At a very high level, most modern browsers have these pieces:
+
+1. **User Interface (UI)**
+2. **Browser Engine**
+3. **Rendering Engine**
+4. **Networking**
+5. **JavaScript Engine**
+6. **Data Storage** (cache, cookies, localStorage, IndexedDB)
+
+---
+
+## 3. User Interface (UI)
+
+This is the part *you* see and interact with:
+
+* Address bar (URL bar)
+* Tabs
+* Back / forward / refresh buttons
+* Bookmarks
+* DevTools
+
+Important point:
+👉 **The UI is NOT the web page**
+The page lives *inside* the browser UI.
+
+---
+
+## 4. Browser Engine vs Rendering Engine (simple distinction)
+
+This is a super common confusion, so here’s the clean mental model:
+
+### Browser Engine
+
+* Acts as the **boss / coordinator**
+* Connects UI actions to the rendering engine
+* Example: “User typed a URL → go fetch → render it”
+
+### Rendering Engine
+
+* Does the **actual work of displaying web content**
+* Parses HTML & CSS
+* Builds layout
+* Paints pixels
+
+Examples:
+
+* **Blink** (Chrome, Edge)
+* **WebKit** (Safari)
+* **Gecko** (Firefox)
+
+📌 Think of it like this:
+
+* Browser Engine = project manager
+* Rendering Engine = construction crew
+
+---
+
+## 5. Networking: how a browser fetches HTML, CSS, JS
+
+When you enter a URL:
+
+1. Browser checks cache (already have it?)
+2. If not, it makes an **HTTP request**
+3. Server responds with:
+
+   * HTML file
+   * Headers (content type, caching rules, etc.)
+4. Browser then discovers **more files to fetch**:
+
+   * CSS (`<link>`)
+   * JavaScript (`<script>`)
+   * Images, fonts, etc.
+
+Key idea:
+👉 **HTML is just the starting point**
+The browser keeps downloading resources as it parses.
+
+---
+
+## 6. HTML parsing and DOM creation
+
+HTML is **not displayed directly**.
+
+The browser:
+
+1. Reads HTML **token by token**
+2. Understands tags (`<div>`, `<p>`, `<h1>`)
+3. Builds a tree structure called the **DOM (Document Object Model)**
+
+Example:
+
+```html
+<body>
+  <h1>Hello</h1>
+  <p>World</p>
+</body>
+```
+
+Becomes a tree:
+
+```
+Document
+ └─ body
+    ├─ h1 → "Hello"
+    └─ p  → "World"
+```
+
+📌 DOM = **structured representation of the HTML**
+
+JavaScript interacts with *this*, not raw HTML text.
+
+---
+
+## 7. CSS parsing and CSSOM creation
+
+CSS also gets parsed—but separately.
+
+The browser:
+
+1. Downloads CSS files
+2. Parses rules
+3. Builds the **CSSOM (CSS Object Model)**
+
+Example:
+
+```css
+p {
+  color: red;
+}
+```
+
+Becomes a structure like:
+
+* Selector: `p`
+* Rules: `color = red`
+
+📌 CSSOM = **all styling rules, structured and ready to apply**
+
+---
+
+## 8. How DOM and CSSOM come together
+
+The browser combines:
+
+* **DOM** (what elements exist)
+* **CSSOM** (how they should look)
+
+This creates the **Render Tree**:
+
+* Only visible elements
+* Each node knows:
+
+  * Its content
+  * Its styles
+
+Hidden elements (`display: none`) don’t make it in.
+
+---
+
+## 9. Layout (reflow), painting, and display
+
+Once the render tree exists:
+
+### 1. Layout (Reflow)
+
+* Calculate:
+
+  * Widths
+  * Heights
+  * Positions
+* Depends on:
+
+  * Screen size
+  * Fonts
+  * Box model
+
+### 2. Paint
+
+* Convert each box into:
+
+  * Colors
+  * Text
+  * Borders
+  * Shadows
+
+### 3. Display (Compositing)
+
+* Layers combined
+* Pixels pushed to the screen
+
+---
+
+## 10. Very basic idea of parsing (simple math example)
+
+Parsing = **turning raw text into structured meaning**
+
+Example string:
+
+```
+"2 + 3 * 4"
+```
+
+Steps:
+
+1. Break into tokens:
+   `2`, `+`, `3`, `*`, `4`
+2. Apply rules (order of operations)
+3. Build a structure:
+
+   ```
+       +
+      / \
+     2   *
+        / \
+       3   4
+   ```
+4. Evaluate → `14`
+
+Browsers do the same thing:
+
+* HTML → DOM tree
+* CSS → CSSOM tree
+* JS → Abstract Syntax Tree (AST)
+
+---
+
+## Big picture mental model (one sentence)
+
+**A browser downloads text, parses it into trees, combines those trees into a visual model,
+and continuously updates pixels as you interact with the page.**
+
+
