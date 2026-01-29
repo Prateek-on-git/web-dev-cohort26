@@ -1,1 +1,170 @@
 
+## 1. What HTML is and why we use it
+
+**HTML (HyperText Markup Language)** is the standard language used to create web pages.
+
+We use HTML to:
+
+* Structure content on a webpage
+* Tell the browser **what things are** (headings, paragraphs, images, links, etc.)
+* Build the basic skeleton of a website
+
+HTML does **not** style pages (that’s CSS) or add behavior (that’s JavaScript). 
+It’s all about **structure and meaning**.
+
+---
+
+## 2. What an HTML tag is
+
+An **HTML tag** is a keyword wrapped in angle brackets (`< >`) that tells the browser what kind of content 
+it’s dealing with.
+
+Examples of tags:
+
+```html
+<p>
+<h1>
+<div>
+<span>
+```
+
+Tags usually come in pairs:
+
+* **Opening tag**: `<p>`
+* **Closing tag**: `</p>`
+
+---
+
+## 3. Opening tag, closing tag, and content
+
+Most HTML code looks like this:
+
+```html
+<p>Hello world</p>
+```
+
+* `<p>` → opening tag
+* `</p>` → closing tag
+* `Hello world` → content
+
+Together, they form a complete unit.
+
+---
+
+## 4. What an HTML element means
+
+An **HTML element** is the **entire thing**:
+
+* Opening tag
+* Content
+* Closing tag
+
+### Example:
+
+```html
+<p>Hello world</p>
+```
+
+This whole line is **one HTML element**.
+
+### ⭐ Key difference (important!)
+
+* **Tag** = just `<p>` or `</p>`
+* **Element** = `<p>Hello world</p>`
+
+👉 Think of it like:
+
+* **Tag** = the container
+* **Element** = the container + what’s inside
+
+---
+
+## 5. Self-closing (void) elements
+
+Some HTML elements **do not have content**, so they don’t need a closing tag.
+These are called **self-closing** or **void elements**.
+
+Examples:
+
+```html
+<img src="image.jpg">
+<br>
+<hr>
+<input>
+```
+
+They:
+
+* Have only one tag
+* Do not wrap content
+
+---
+
+## 6. Block-level vs inline elements
+
+### Block-level elements
+
+* Start on a new line
+* Take up the full width of the page
+
+Examples:
+
+```html
+<h1>This is a heading</h1>
+<p>This is a paragraph</p>
+<div>This is a div</div>
+```
+
+### Inline elements
+
+* Stay in the same line
+* Take only as much space as needed
+
+Examples:
+
+```html
+<span>Inline text</span>
+<a href="#">A link</a>
+<strong>Bold text</strong>
+```
+
+---
+
+## 7. Commonly used HTML tags (with simple examples)
+
+### `<h1>` – Heading
+
+```html
+<h1>Welcome</h1>
+```
+
+### `<p>` – Paragraph
+
+```html
+<p>This is a paragraph.</p>
+```
+
+### `<div>` – Block container (layout/grouping)
+
+```html
+<div>
+  <p>Inside a div</p>
+</div>
+```
+
+### `<span>` – Inline container (small text styling)
+
+```html
+<p>This is a <span>word</span> in a sentence.</p>
+```
+
+---
+
+## 8. Summary: Tag vs Element (very clear)
+
+| Term        | Meaning             | Example        |
+| ----------- | ------------------- | -------------- |
+| **Tag**     | Markup inside `< >` | `<p>`          |
+| **Element** | Tag(s) + content    | `<p>Hello</p>` |
+
+
