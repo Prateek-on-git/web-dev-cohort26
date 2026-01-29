@@ -1,1 +1,229 @@
 
+
+# 1. What is TCP and why it is needed
+
+**TCP (Transmission Control Protocol)** is a **connection-oriented, reliable transport-layer protocol** 
+used for applications where **accuracy matters more than speed**.
+
+### Why TCP is needed
+
+The Internet is unreliable by nature:
+
+* Packets can be **lost**
+* Packets can arrive **out of order**
+* Packets can be **duplicated**
+* Data can get **corrupted**
+
+TCP sits on top of IP and **fixes these problems**, so applications don’t have to.
+
+### Common applications using TCP
+
+* HTTP / HTTPS (web)
+* FTP (file transfer)
+* SMTP (email)
+* SSH
+
+---
+
+# 2. Problems TCP is designed to solve
+
+TCP solves these key problems:
+
+| Problem                      | How TCP solves it       |
+| ---------------------------- | ----------------------- |
+| Packet loss                  | Retransmission          |
+| Out-of-order delivery        | Sequence numbers        |
+| Duplicate packets            | Sequence + ACK handling |
+| Data corruption              | Checksums               |
+| Sender overwhelming receiver | Flow control            |
+| Network congestion           | Congestion control      |
+
+---
+
+# 3. What is the TCP 3-Way Handshake
+
+Before sending data, TCP must **establish a connection**.
+
+The **3-Way Handshake**:
+
+1. Synchronizes sequence numbers
+2. Confirms both sides are ready
+3. Establishes a reliable connection
+
+---
+
+# 4. Step-by-step working of SYN, SYN-ACK, and ACK
+
+### Step 1: SYN (Client → Server)
+
+* Client sends a **SYN** packet
+* Contains:
+
+  * Initial Sequence Number (ISN = x)
+* Means: *“I want to start a connection”*
+
+```
+Client → Server: SYN (Seq = x)
+```
+
+---
+
+### Step 2: SYN-ACK (Server → Client)
+
+* Server responds with **SYN + ACK**
+* Contains:
+
+  * Server’s ISN (y)
+  * ACK = x + 1
+* Means: *“I received your SYN and I’m ready”*
+
+```
+Server → Client: SYN, ACK (Seq = y, Ack = x + 1)
+```
+
+---
+
+### Step 3: ACK (Client → Server)
+
+* Client sends final **ACK**
+* Contains:
+
+  * ACK = y + 1
+* Connection is now **established**
+
+```
+Client → Server: ACK (Ack = y + 1)
+```
+
+---
+
+# 5. How data transfer works in TCP
+
+Once connected, **data flows in segments**.
+
+### Key ideas
+
+* Each byte has a **sequence number**
+* Receiver sends **ACKs** for received data
+* Data can flow **both directions simultaneously**
+
+### Example
+
+1. Sender sends data with Seq = 100, length = 50
+2. Receiver replies with ACK = 150
+3. Means: *“I got everything up to byte 149”*
+
+---
+
+# 6. How TCP ensures reliability, order, and correctness
+
+### Reliability
+
+* Every segment must be **acknowledged**
+* Missing ACK → **retransmission**
+
+### Ordered delivery
+
+* Sequence numbers allow the receiver to:
+
+  * Reorder packets
+  * Detect missing data
+
+### Error detection
+
+* **Checksum** detects corrupted data
+* Corrupted packets are discarded and retransmitted
+
+---
+
+# 7. How TCP handles packet loss and retransmission
+
+TCP detects loss using:
+
+### 1. Timeout
+
+* Sender waits for ACK
+* If timeout expires → retransmit
+
+### 2. Duplicate ACKs
+
+* Multiple ACKs for same sequence number
+* Indicates a missing segment
+* Triggers **fast retransmission**
+
+---
+
+# 8. TCP connection termination (FIN and ACK)
+
+TCP closes connections **gracefully** using a **4-step process**.
+
+### Step 1: FIN (Client → Server)
+
+* Client sends **FIN**
+* Means: *“I’m done sending data”*
+
+```
+Client → Server: FIN
+```
+
+---
+
+### Step 2: ACK (Server → Client)
+
+* Server acknowledges FIN
+
+```
+Server → Client: ACK
+```
+
+---
+
+### Step 3: FIN (Server → Client)
+
+* Server sends its own **FIN**
+* Means: *“I’m also done”*
+
+```
+Server → Client: FIN
+```
+
+---
+
+### Step 4: ACK (Client → Server)
+
+* Client acknowledges server’s FIN
+* Connection is closed
+
+```
+Client → Server: ACK
+```
+
+---
+
+# 9. TCP connection lifecycle
+
+### 1. Establish
+
+* 3-Way Handshake (SYN → SYN-ACK → ACK)
+
+### 2. Transfer
+
+* Reliable, ordered data exchange
+* Flow control & congestion control active
+
+### 3. Close
+
+* FIN → ACK → FIN → ACK
+
+---
+
+# 10. Summary (one-glance revision)
+
+* TCP is **reliable and connection-oriented**
+* 3-way handshake establishes connection
+* Sequence numbers + ACKs ensure order & reliability
+* Packet loss → timeout or duplicate ACKs → retransmission
+* Connection closes using **FIN and ACK**
+* Lifecycle: **Establish → Transfer → Close**
+
+
