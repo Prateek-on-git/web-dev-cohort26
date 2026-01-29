@@ -1,1 +1,247 @@
 
+
+## 1. What is DNS and why name resolution exists
+
+**DNS (Domain Name System)** is the Internet’s **phone book**.
+
+* Humans like names: `google.com`
+* Computers use numbers (IP addresses): `142.250.72.14`
+
+**Name resolution** is the process of translating:
+
+```
+google.com  →  142.250.72.14
+```
+
+### Why DNS exists
+
+Without DNS:
+
+* You’d have to memorize IP addresses
+* IPs change frequently (cloud, CDNs, failover)
+* The internet wouldn’t scale
+
+DNS gives us:
+
+* **Human-friendly names**
+* **Decoupling** of name from location
+* **Load balancing & redundancy**
+* **Global scalability**
+
+---
+
+## 2. What is the `dig` command and when it is used
+
+`dig` (**Domain Information Groper**) is a command-line tool to **query DNS servers directly**.
+
+### Why use `dig`
+
+* Debug DNS problems
+* See **exact DNS answers**
+* Understand **who answered** and **how**
+* Test different record types (A, NS, MX, TXT, etc.)
+
+### Basic syntax
+
+```bash
+dig <name> <record-type>
+```
+
+Example:
+
+```bash
+dig google.com
+dig google.com A
+dig google.com NS
+```
+
+---
+
+## 3. Understanding `dig . NS` — Root name servers
+
+```bash
+dig . NS
+```
+
+This asks:
+
+> “Who are the name servers for the **root zone**?”
+
+### What is the root (`.`)?
+
+* The **top of the DNS hierarchy**
+* Every domain ultimately starts here
+
+### Root name servers
+
+You’ll see something like:
+
+```
+a.root-servers.net.
+b.root-servers.net.
+...
+m.root-servers.net.
+```
+
+Key facts:
+
+* There are **13 logical root servers** (A–M)
+* Operated by different organizations
+* Anycasted globally (thousands of instances)
+
+### What root servers do
+
+* They **do NOT know IPs for google.com**
+* They only say:
+
+  > “Ask the `.com` TLD servers”
+
+---
+
+## 4. Understanding `dig com NS` — TLD name servers
+
+```bash
+dig com NS
+```
+
+This asks:
+
+> “Who manages the `.com` top-level domain?”
+
+### TLD (Top-Level Domain)
+
+Examples:
+
+* `.com`
+* `.org`
+* `.net`
+* `.edu`
+
+The `.com` TLD is managed by **Verisign**.
+
+### What TLD servers do
+
+* They **do NOT know google.com’s IP**
+* They say:
+
+  > “These are the authoritative name servers for google.com”
+
+Think of it as:
+
+```
+Root → .com → google.com
+```
+
+---
+
+## 5. Understanding `dig google.com NS` — Authoritative name servers
+
+```bash
+dig google.com NS
+```
+
+This asks:
+
+> “Who is authoritative for google.com?”
+
+You’ll see:
+
+```
+ns1.google.com.
+ns2.google.com.
+ns3.google.com.
+ns4.google.com.
+```
+
+### Authoritative name servers
+
+These servers:
+
+* Are owned/controlled by Google
+* Store the **actual DNS records**
+* Give **final answers** (A, AAAA, MX, TXT, etc.)
+
+This is where truth lives for the domain.
+
+---
+
+## 6. Understanding `dig google.com` — Full DNS resolution flow
+
+```bash
+dig google.com
+```
+
+By default, `dig` asks **your configured recursive resolver** (ISP, corporate DNS, or public DNS like 8.8.8.8).
+
+### What happens behind the scenes
+
+Your **recursive resolver** does this:
+
+1. **Ask Root**
+
+   ```
+   Who handles .com?
+   ```
+
+2. **Ask .com TLD**
+
+   ```
+   Who handles google.com?
+   ```
+
+3. **Ask Google’s authoritative servers**
+
+   ```
+   What is the A record for google.com?
+   ```
+
+4. **Get final answer**
+
+   ```
+   google.com → 142.250.x.x
+   ```
+
+5. **Cache the result**
+
+   * Speeds up future queries
+   * Controlled by TTL (Time To Live)
+
+### Simplified flow diagram
+
+```
+Client
+  ↓
+Recursive Resolver
+  ↓
+Root Servers (.)
+  ↓
+TLD Servers (.com)
+  ↓
+Authoritative Servers (google.com)
+  ↓
+IP Address returned
+```
+
+---
+
+## Bonus: Why `dig` feels “instant”
+
+Most of the time:
+
+* Root, TLD, and authoritative answers are **cached**
+* Your resolver already knows the path
+
+So `dig google.com` usually looks like a single step — but the **full chain still exists conceptually**.
+
+---
+
+## TL;DR
+
+* **DNS**: Maps names → IPs
+* **Name resolution**: The lookup process
+* **`dig`**: Tool to query DNS and see what’s really happening
+* **Root (`.`)**: Knows TLDs
+* **TLD (`.com`)**: Knows authoritative servers
+* **Authoritative servers**: Know the actual IP
+* **Recursive resolver**: Walks the chain for you
+
