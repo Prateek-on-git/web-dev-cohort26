@@ -1,0 +1,142 @@
+
+## What are TCP and UDP?
+
+**TCP** and **UDP** are both **transport-layer protocols**.
+They sit between applications (like web browsers, games, video calls) and the network (IP).
+
+Their job: **move data from one computer to another**.
+
+---
+
+## TCP (Transmission Control Protocol)
+
+Think of TCP like **sending a registered package** 📦
+
+* Makes sure data arrives
+* Sends data **in order**
+* Resends missing pieces
+* Slower, but very reliable
+
+TCP **cares about correctness** more than speed.
+
+---
+
+## UDP (User Datagram Protocol)
+
+Think of UDP like **shouting messages across a room** 📢
+
+* Sends data fast
+* No guarantee it arrives
+* No ordering
+* No retries
+
+UDP **cares about speed** more than reliability.
+
+---
+
+## Key Differences Between TCP and UDP
+
+| Feature        | TCP                 | UDP            |
+| -------------- | ------------------- | -------------- |
+| Connection     | Connection-oriented | Connectionless |
+| Reliability    | Guaranteed delivery | Best effort    |
+| Order          | Preserves order     | No ordering    |
+| Error handling | Yes (retries)       | No             |
+| Speed          | Slower              | Faster         |
+| Overhead       | Higher              | Lower          |
+
+---
+
+## When to Use TCP
+
+Use TCP when **data must be correct and complete**.
+
+Examples:
+
+* Web pages
+* Emails
+* File downloads
+* APIs
+* Databases
+
+If even **one missing byte matters**, TCP is the move.
+
+---
+
+## When to Use UDP
+
+Use UDP when **speed matters more than perfection**.
+
+Examples:
+
+* Live video/audio
+* Online gaming
+* Voice calls
+* DNS lookups
+
+If a little data loss is okay but **latency is not**, UDP wins.
+
+---
+
+## Common Real-World Examples
+
+### TCP in the real world
+
+* Loading a website
+* Sending an email
+* Downloading a PDF
+* HTTPS traffic
+
+### UDP in the real world
+
+* Zoom / Discord calls
+* Live streaming
+* Multiplayer games
+
+
+---
+
+## What is HTTP and Where It Fits
+
+**HTTP (Hypertext Transfer Protocol)** is an **application-layer protocol**.
+
+It defines:
+
+* How browsers request data
+* How servers respond
+* Status codes (200, 404, etc.)
+* Headers, methods (GET, POST…)
+
+HTTP does **not** move data itself.
+It **relies on transport protocols** underneath.
+
+---
+
+## Relationship Between TCP and HTTP
+
+* **HTTP usually runs on TCP**
+* TCP handles **delivery**
+* HTTP handles **meaning**
+
+Think of it like this:
+
+* **TCP** = the delivery truck 🚚
+* **HTTP** = the rules for what’s inside the package 📄
+
+So when you open a website:
+
+1. Browser uses **HTTP** to request a page
+2. HTTP data is sent using **TCP**
+3. TCP ensures everything arrives correctly
+4. Browser renders the page
+
+
+
+---
+
+## One-Sentence Summary
+
+* **TCP = reliable but slower**
+* **UDP = fast but unreliable**
+* **HTTP = web rules that usually run on TCP**
+
