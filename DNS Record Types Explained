@@ -118,7 +118,41 @@
         MX     → Email handled by Google
         TXT    → Email security + verification
 
+                         ┌─────────────────┐
+                         │  Root DNS (.)   │
+                         │  a.root-servers │
+                         └────────┬────────┘
+                                  │
+                                  │ NS records for TLD
+                                  ▼
+                         ┌─────────────────┐
+                         │   TLD DNS (.com)│
+                         │   a.gtld-servers│
+                         └────────┬────────┘
+                                  │
+                                  │ NS records for example.com
+                                  ▼
+                  ┌────────────────────────────────┐
+                  │  Authoritative DNS for          │
+                  │  example.com                    │
+                  │                                │
+                  │  NS ns1.dns-host.net            │
+                  │  NS ns2.dns-host.net            │
+                  └──────────────┬─────────────────┘
+                                 │
+              ┌──────────────────┴──────────────────┐
+              │                                     │
+              ▼                                     ▼
+   ┌──────────────────┐                 ┌──────────────────┐
+   │ ns1.dns-host.net │                 │ ns2.dns-host.net │
+   │ (authoritative)  │                 │ (authoritative)  │
+   └────────┬─────────┘                 └────────┬─────────┘
+            │                                     │
+            │ DNS records (A, AAAA, MX, etc.)
+            ▼
+   ┌──────────────────────────┐
+   │ example.com              │
+   │ www.example.com          │
+   │ mail.example.com         │
+   └──────────────────────────┘
 
-Clear common beginner confusion gently:
--A vs CNAME
--NS vs MX
