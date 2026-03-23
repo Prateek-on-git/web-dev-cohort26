@@ -1,0 +1,132 @@
+
+1. What a callback function is
+A callback function is simply:
+
+A function passed into another function as an argument, to be executed later.
+
+Simple Example:
+function processUserInput(callback) {
+  console.log("Processing...");
+  callback();
+}
+
+function sayHi() {
+  console.log("Hi!");
+}
+
+processUserInput(sayHi);
+
+👉 Here, sayHi is the callback function.
+
+
+2. Why callbacks are used in asynchronous programming
+JavaScript is non-blocking, meaning it doesn’t wait for tasks like:
+
+API calls
+File reading
+Timers
+
+Callbacks let us run code after a task finishes.
+Example with setTimeout:
+console.log("Start");
+
+setTimeout(function() {
+  console.log("Executed after 2 seconds");
+}, 2000);
+
+console.log("End");
+Output:
+Start
+End
+Executed after 2 seconds
+
+👉 The callback runs after the delay, without blocking execution
+
+3. Passing functions as arguments
+function calculate(a, b, operation) {
+  return operation(a, b);
+}
+
+function add(x, y) {
+  return x + y;
+}
+
+console.log(calculate(2, 3, add)); // 5
+
+
+
+
+
+Callback usage in common scenarios
+1. Timers
+setTimeout(() => {
+  console.log("Done!");
+}, 1000);
+2. Event Handling
+button.addEventListener("click", function() {
+  console.log("Button clicked!");
+});
+3. API Calls (Simplified)
+fetch("https://api.example.com/data")
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    console.log(data);
+  });
+
+Main Function
+     |
+     ↓
+Calls Another Function
+     |
+     ↓
+Passes Callback
+     |
+     ↓
+Callback Executes Later
+
+Basic problem of callback nesting
+
+hen callbacks are inside callbacks, code becomes hard to read.
+
+Example:
+setTimeout(() => {
+  console.log("Step 1");
+
+  setTimeout(() => {
+    console.log("Step 2");
+
+    setTimeout(() => {
+      console.log("Step 3");
+    }, 1000);
+
+  }, 1000);
+
+}, 1000);
+8. Nested Callback Flow Diagram
+Step 1
+  ↓
+Step 2
+  ↓
+Step 3
+
+But in code:
+
+Callback
+ └── Callback
+      └── Callback
+9. Problems with Callback Nesting
+❌ Hard to read (pyramid shape)
+❌ Difficult to debug
+❌ Error handling becomes messy
+❌ Not scalable
+
+This is often called:
+
+"Callback Hell" or "Pyramid of Doom"
+
+To solve callback problems, JavaScript introduced:
+
+Promises
+Async/Await
