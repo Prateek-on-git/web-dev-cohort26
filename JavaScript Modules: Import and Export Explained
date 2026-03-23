@@ -87,7 +87,6 @@ You can only have **one default export per file**.
 
 You can export grouped values as an object:
 
-```javascript id="qnl2zz"
 const user = {
   name: "John",
   age: 25
@@ -102,13 +101,12 @@ export default user;
 
 A file can have both:
 
-```javascript id="n6ldg7"
 export const version = "1.0";
 
 export default function log(message) {
   console.log(message);
 }
-```
+
 
 ---
 
@@ -153,12 +151,11 @@ Let’s break down these two important concepts in a simple way.
 
 In a file, you can export **many things** using named exports.
 
-```javascript id="r4m1kx"
 // math.js
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;
 export const PI = 3.14;
-```
+
 
 ✔ You can export as many functions or variables as you want
 ✔ Each export has its own name
@@ -169,20 +166,17 @@ export const PI = 3.14;
 
 A file can have **only one default export**.
 
-```javascript id="3zqk2l"
 // greet.js
 export default function greet(name) {
   return `Hello, ${name}`;
 }
-```
+
 
 ❌ You cannot do this:
 
-```javascript id="9m8v2k"
-// ❌ गलत (Invalid)
 export default function a() {}
 export default function b() {}
-```
+
 
 ✔ Default export represents the **main thing** in that file
 
@@ -194,21 +188,21 @@ export default function b() {}
 
 When importing named exports, you must use the **exact name** used during export.
 
-```javascript id="m5m4yf"
+
 // math.js
 export const add = (a, b) => a + b;
-```
 
-```javascript id="0n7p9r"
+
+
 // app.js
 import { add } from './math.js'; // ✅ correct
-```
+
 
 ❌ This will NOT work:
 
-```javascript id="v0cbgq"
+
 import { sum } from './math.js'; // ❌ wrong name
-```
+
 
 ✔ Because JavaScript matches names exactly
 
@@ -218,18 +212,18 @@ import { sum } from './math.js'; // ❌ wrong name
 
 Default exports don’t require a fixed name when importing.
 
-```javascript id="l6qzqf"
+
 // greet.js
 export default function greet(name) {
   return `Hello, ${name}`;
 }
-```
 
-```javascript id="3mbt0d"
+
+
 // app.js
 import greetUser from './greet.js'; // ✅ works
 import hello from './greet.js';     // ✅ also works
-```
+
 
 ✔ You can rename it anything you like
 ✔ Because there is only one default export, JavaScript knows what to import
