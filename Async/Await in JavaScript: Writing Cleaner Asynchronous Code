@@ -1,0 +1,25 @@
+--Why async/await Was Introduced
+
+Before async/await, JavaScript handled asynchronous operations mainly using:
+
+Callbacks → led to callback hell
+Promises → better, but still chained and sometimes hard to read
+
+getData()
+  .then(data => processData(data))
+  .then(result => saveResult(result))
+  .catch(err => handleError(err));
+Even though promises improved things, complex flows still became hard to follow.
+
+Solution: async/await was introduced (ES2017) to make async code look
+like synchronous code, improving readability and maintainability.
+
+Please note - async/await is just syntactic sugar over Promises
+This means:
+
+It doesn’t replace promises
+It simply provides a cleaner way to write them
+
+
+
+
