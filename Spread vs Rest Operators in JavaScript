@@ -1,0 +1,89 @@
+1. What the Spread Operator Does
+
+Definition:
+The spread operator (...) expands an iterable (like an array or object) into individual elements.
+
+Key Idea: Expanding values.
+
+Array Example:
+
+const numbers = [1, 2, 3];
+console.log(...numbers); // Output: 1 2 3
+
+Object Example:
+
+const obj = { a: 1, b: 2 };
+const newObj = { ...obj, c: 3 };
+console.log(newObj); // Output: { a: 1, b: 2, c: 3 }
+
+2. What the Rest Operator Does
+
+Definition:
+The rest operator (...) collects multiple elements into a single array (or object for destructuring).
+
+Key Idea: Collecting values.
+
+Array Example:
+
+const [first, ...rest] = [10, 20, 30, 40];
+console.log(first); // Output: 10
+console.log(rest);  // Output: [20, 30, 40]
+
+Object Example:
+
+const { a, ...others } = { a: 1, b: 2, c: 3 };
+console.log(a);      // Output: 1
+console.log(others); // Output: { b: 2, c: 3 }
+
+
+3. Differences Between Spread and Rest
+| Feature       | Spread (`...`)                                  | Rest (`...`)                 |
+| ------------- | ----------------------------------------------- | ---------------------------- |
+| Functionality | Expands iterable into elements                  | Collects elements into array |
+| Usage Context | Function calls, array literals, object literals | Destructuring assignments    |
+| Concept       | Expanding values                                | Collecting values            |
+| Example       | `Math.max(...[1,2,3])`                          | `const [a, ...b] = [1,2,3]`  |
+
+
+4. Using Spread with Arrays and Objects
+
+Array Merging:
+
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+const merged = [...arr1, ...arr2];
+console.log(merged); // Output: [1,2,3,4]
+
+Object Cloning/Combining:
+
+const obj1 = { x: 1 };
+const obj2 = { y: 2 };
+const combined = { ...obj1, ...obj2 };
+console.log(combined); // Output: { x: 1, y: 2 }
+
+Function Arguments:
+
+function sum(a, b, c) { return a + b + c; }
+const nums = [1, 2, 3];
+console.log(sum(...nums)); // Output: 6
+
+
+5. Practical Use Cases
+Array Copying
+const original = [1, 2];
+const copy = [...original]; // avoids mutation
+
+Adding items to arrays
+const arr = [2, 3];
+const newArr = [1, ...arr, 4];
+console.log(newArr); // [1,2,3,4]
+
+Object Updates
+const user = { name: "Alice", age: 25 };
+const updated = { ...user, age: 26 };
+
+Function with Variable Arguments
+function greet(greeting, ...names) {
+  console.log(`${greeting} ${names.join(", ")}`);
+}
+greet("Hello", "Alice", "Bob", "Charlie");
