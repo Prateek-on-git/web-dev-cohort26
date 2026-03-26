@@ -1,0 +1,83 @@
+1. What Destructuring Means
+
+Definition:
+Destructuring is a convenient way of extracting values from arrays or objects into individual variables.
+Instead of accessing properties or elements repeatedly, you can “unpack” them directly.Example:
+Without destructuring:
+
+const person = { name: "Alice", age: 25 };
+const name = person.name;
+const age = person.age;
+
+With destructuring:
+
+const { name, age } = person;
+
+2. Destructuring Arrays
+
+Basic Syntax:
+
+const numbers = [1, 2, 3];
+const [first, second] = numbers;
+console.log(first, second); // 1 2
+
+Skipping items:
+
+const [,, third] = numbers;
+console.log(third); // 3
+
+3. Destructuring Objects
+
+Basic Syntax:
+
+const user = { username: "bob123", email: "bob@example.com" };
+const { username, email } = user;
+console.log(username, email);
+
+Renaming variables:
+
+const { username: userName, email: userEmail } = user;
+
+Nested objects:
+
+const user = { name: "Alice", address: { city: "NY", zip: 10001 } };
+const { address: { city, zip } } = user;
+
+
+4. Default Values
+
+Destructuring allows default values if a property/element is undefined.
+
+Array example:
+
+const numbers = [10];
+const [a, b = 20] = numbers;
+console.log(a, b); // 10 20
+
+Object example:
+
+const options = { size: "M" };
+const { size, color = "blue" } = options;
+console.log(size, color); // M blue
+
+
+5. Benefits of Destructuring
+Less repetitive code: No need to repeatedly write obj.property or arr[index].
+Clearer intent: It’s obvious which variables you’re extracting.
+Works with function parameters: You can destructure directly in function arguments.
+
+Example (before vs after):
+Before:
+
+function greet(user) {
+  const name = user.name;
+  const age = user.age;
+  console.log(`Hello ${name}, you are ${age}`);
+}
+
+After:
+
+function greet({ name, age }) {
+  console.log(`Hello ${name}, you are ${age}`);
+}
+
