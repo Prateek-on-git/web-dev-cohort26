@@ -11,7 +11,7 @@ getData()
   .catch(err => handleError(err));
 Even though promises improved things, complex flows still became hard to follow.
 
-Solution: async/await was introduced (ES2017) to make async code look
+Solution: async/await was introduced to make async code look
 like synchronous code, improving readability and maintainability.
 
 Please note - async/await is just syntactic sugar over Promises
@@ -22,4 +22,212 @@ It simply provides a cleaner way to write them
 
 
 
+--How async functions work
 
+An async function:
+Always returns a Promise
+Wraps return values automatically in a resolved Promise
+An async function is just a normal JavaScript function with a special behavior:
+It ALWAYS returns a Promise, no matter what you return inside it.
+
+Step-by-step understanding
+Case 1: Returning a normal value
+async function example() {
+  return "Hello";
+}
+What you might think:
+
+👉 It returns "Hello"
+
+What actually happens:
+
+👉 It returns a Promise that resolves to "Hello"
+
+So internally, it's like:
+
+function example() {
+  return Promise.resolve("Hello");
+}
+How to see this in action
+async function example() {
+  return "Hello";
+}
+
+console.log(example());
+Output:
+Promise { "Hello" }
+To get the actual value
+
+You must use .then() or await:
+
+example().then(result => console.log(result));
+
+✔ Output:
+
+Hello
+Case 2: Returning a Promise manually
+async function example() {
+  return Promise.resolve("Hi");
+}
+What happens?
+
+👉 JavaScript does NOT wrap it twice
+
+It just returns the same Promise.
+
+Case 3: Throwing an error
+async function example() {
+  throw "Something went wrong";
+}
+What happens?
+
+👉 This becomes a rejected Promise
+
+Equivalent to:
+
+function example() {
+  return Promise.reject("Something went wrong");
+}
+Big Rule (Very Important)
+
+Inside an async function:
+
+You write	JavaScript converts it to
+return value	Promise.resolve(value)
+throw error	Promise.reject(error)
+
+
+Now let’s add await (how execution works)
+async function test() {
+  console.log("Step 1");
+
+  let data = await Promise.resolve("Step 2");
+
+  console.log(data);
+
+  console.log("Step 3");
+}
+
+test();
+Execution Flow
+Step 1
+(wait happens here)
+Step 2
+Step 3
+What’s really happening:
+Function starts
+Runs until it hits await
+Pauses the function
+Waits for Promise to resolve
+Continues execution
+Important Clarification 🚨
+
+👉 await does NOT block the whole program
+👉 It only pauses that async function
+
+Example:
+
+async function test() {
+  console.log("A");
+  await Promise.resolve();
+  console.log("B");
+}
+
+console.log("Start");
+test();
+console.log("End");
+Output:
+Start
+A
+End
+B
+
+✔ This proves JavaScript is still non-blocking
+
+
+
+imple Analogy
+
+Think of an async function like ordering food:
+
+You place an order 🍔
+You wait (await)
+When food arrives → continue eating
+
+But while waiting:
+👉 Other people (other code) keep doing their work
+
+
+
+
+Async makes a function return a Promise automatically
+return → becomes Promise.resolve()
+throw → becomes Promise.reject()
+await pauses execution inside the function only until the promise resolves.
+Await Can only be used inside async functions
+The rest of JavaScript keeps running normally
+
+--Error handling with async code
+Use try...catch instead of .catch()
+async function getData() {
+  try {
+    let data = await Promise.reject("Error occurred");
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+--Comparison with Promises
+Using Promises:
+fetchData()
+  .then(data => process(data))
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
+
+using async/await
+async function handleData() {
+  try {
+    const data = await fetchData();
+    const result = process(data);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+Less chaining
+Cleaner structure
+Easier debugging
+
+
+Async/await does not replace Promises:
+It is built on top of Promises
+You can still use .then() if needed
+async function example() {
+  return 42;
+}
+
+
+internally it is
+function example() {
+  return Promise.resolve(42);
+}
+
+Simple Example (Real-world style)
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function run() {
+  console.log("Start");
+  await delay(1000);
+  console.log("After 1 second");
+}
+
+run();
+
+Key Takeaways
+delay() creates a Promise that resolves after time
+await pauses only the async function
+JavaScript remains non-blocking
+Execution resumes after Promise resolves
