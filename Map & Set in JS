@@ -1,1 +1,143 @@
 
+What is a Map?
+
+A Map is a collection of key-value pairs, similar to objects—but more powerful and flexible.
+
+const map = new Map();
+
+map.set("name", "John");
+map.set(1, "Number key");
+
+console.log(map.get("name")); // John
+Key Features of Map
+Keys can be any data type (string, number, object, etc.)
+Maintains insertion order
+Has built-in methods like .set(), .get(), .has()
+
+
+Map
+ ┌───────────────┐
+ │ "name" → John │
+ │ 1      → Num  │
+ │ {}     → Obj  │
+ └───────────────┘
+
+What is a Set?
+
+A Set is a collection of unique *values* only.
+const set = new Set();
+
+set.add(1);
+set.add(2);
+set.add(2); // duplicate
+
+console.log(set); // {1, 2}
+
+Key Features of Set
+Stores only unique values
+Automatically removes duplicates
+Maintains insertion order
+Set
+ ┌─────────┐
+ │ 1       │
+ │ 2       │
+ │ 3       │
+ └─────────┘
+(No duplicates allowed)
+
+
+-- Problems with Traditional Objects and Arrays
+Objects (Problems)
+const obj = {};
+obj[true] = "yes";
+obj["true"] = "no";
+
+console.log(obj); // { true: "no" }
+
+❌ Keys are converted to strings
+❌ No guaranteed order (historically)
+❌ No easy size checking - no inbuilt length property.
+
+Arrays (Problems)
+const arr = [1, 2, 2, 3];
+
+❌ Allows duplicates
+❌ Harder to check uniqueness efficiently
+
+
+-- MAP VS OBJECT
+| Feature   | Map               | Object                  |
+| --------- | ----------------- | ----------------------- |
+| Key types | Any type          | Strings/Symbols only    |
+| Order     | Maintained        | Not reliable (older JS) |
+| Size      | `.size`           | `Object.keys().length`  |
+| Iteration | Easy (`for...of`) | Less direct             |
+
+Example
+// Map
+const map = new Map();
+map.set({}, "value");
+
+// Object
+const obj = {};
+obj[{}] = "value";
+
+console.log(obj); // [object Object
+👉 Object loses uniqueness of object keys
+👉 Map keeps them distinct ✅
+
+--Set vs Array
+
+| Feature      | Set            | Array               |
+| ------------ | -------------- | ------------------- |
+| Duplicates   | ❌ Not allowed  | ✅ Allowed           |
+| Lookup speed | Faster (`has`) | Slower (`includes`) |
+| Order        | Maintained     | Maintained          |
+| Use case     | Unique values  | Indexed data        |
+
+const arr = [1, 2, 2, 3];
+
+const unique = new Set(arr);
+
+console.log(unique); // {1, 2, 3}
+👉 Super easy way to remove duplicates!
+
+---When to Use Map and Set
+Use Map when:
+You need key-value storage
+Keys are not just strings
+You need frequent additions/removals
+
+const userRoles = new Map();
+userRoles.set(userObject, "admin");
+-
+
+Use Set when:
+You need unique values only
+You want to remove duplicates
+You need fast existence checks
+const visitedPages = new Set();
+visitedPages.add("/home");
+
+Visual Comparison (Big Picture)
+Map (Key → Value)
+Key        Value
+----       -----
+"id"   →   101
+1      →   "One"
+{}     →   "Object key"
+Set (Only Values, Unique)
+Input:  [1, 2, 2, 3]
+
+Set:
+ ┌─────┐
+ │ 1   │
+ │ 2   │
+ │ 3   │
+ └─────┘
+
+Key Takeaways
+Map = advanced object (flexible key-value storage)
+Set = unique collection (no duplicates)
+Map solves object limitations
+Set solves array duplication problems
