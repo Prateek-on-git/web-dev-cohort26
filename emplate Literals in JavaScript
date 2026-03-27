@@ -1,0 +1,79 @@
+🔹 Problems with Traditional String Concatenation
+
+Old way of creating strings:
+
+const name = "Rahul";
+const age = 25;
+
+const message = "Hello, my name is " + name + " and I am " + age + " years old.";
+console.log(message);
+❌ Issues:
+Hard to read with many variables
+Messy when creating multi-line strings
+Error-prone when adding lots of dynamic data
+🔹 Template Literal Syntax
+Use backticks ` instead of quotes
+Embed variables with ${}
+Supports multi-line strings natively
+const name = "Rahul";
+const age = 25;
+
+const message = `Hello, my name is ${name} and I am ${age} years old.`;
+console.log(message);
+✅ Output:
+Hello, my name is Rahul and I am 25 years old.
+
+
+🔹 Multi-Line Strings
+
+Old way:
+
+const message = "Line 1\n" +
+                "Line 2\n" +
+                "Line 3";
+console.log(message);
+
+Template literals:
+
+const message = `Line 1
+Line 2
+Line 3`;
+console.log(message);
+✅ Output:
+Line 1
+Line 2
+Line 3
+
+
+🔹 Embedding Expressions
+
+You can include any expression inside ${}:
+
+const a = 5;
+const b = 10;
+
+console.log(`The sum of ${a} and ${b} is ${a + b}.`);
+✅ Output:
+The sum of 5 and 10 is 15.
+
+🔹 Use Cases in Modern JavaScript
+Dynamic content in web pages
+Multi-line HTML templates
+Logging messages with variables
+String interpolation in functions
+
+
+| Feature     | Old Concatenation       | Template Literal       |
+| ----------- | ----------------------- | ---------------------- |
+| Variables   | `"Hello " + name + "!"` | `` `Hello ${name}!` `` |
+| Multi-line  | `"Line 1\nLine 2"`      | `` `Line 1\nLine 2` `` |
+| Expressions | `"Sum: " + (a + b)`     | `` `Sum: ${a + b}` ``  |
+| Readability | ❌ messy                 | ✅ clean & readable     |
+
+Key Takeaways
+Template literals = backticks + ${} interpolation
+Supports multi-line strings
+Improves readability and reduces errors
+Widely used in modern JS, especially for dynamic content
+
+
