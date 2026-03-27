@@ -1,0 +1,128 @@
+📌 JavaScript Error Handling
+
+
+🔹 What Errors Are in JavaScript
+
+Errors are problems that occur while your code is running, such as:
+Syntax errors → invalid code (caught at compile time)
+Runtime errors → code runs but fails
+Logical errors → code runs but produces wrong results
+
+🔹 Why Error Handling Matters
+Prevents app crashes
+Provides graceful failure
+Helps debug and log useful info
+Improves user experience
+
+
+🔹 Using try and catch Blocks
+try → contains code that may throw an error
+catch → handles the error
+
+try {
+    let result = riskyFunction();
+    console.log(result);
+} catch (error) {
+    console.log("Caught an error:", error.message);
+}
+
+execution flow
+try {
+    // code that might fail
+} catch (error) {
+    // runs if an error occurs
+}
+
+If no error → catch skipped
+If error → jumps to catch
+
+
+🔹 The finally Block
+Runs always, regardless of error
+Useful for cleanup tasks
+
+
+try {
+    console.log("Try block running");
+    // throw new Error("Oops!");
+} catch (error) {
+    console.log("Caught error:", error.message);
+} finally {
+    console.log("Finally block runs always");
+}
+
+//output with error
+Try block running
+Caught error: Oops!
+Finally block runs always
+
+Why is finally used, if try catch are already there?
+🔹 What finally Does
+The finally block always runs, no matter what happens in try or catch.
+It is guaranteed to execute even if:
+An error occurs
+There’s a return statement inside try or catch
+An error is thrown and caught
+
+🔹 Why Not Just try…catch?
+
+try…catch only handles errors.
+
+Code in try runs → success or error
+If error → catch runs
+But cleanup or finishing tasks may need to happen regardless of success or failure
+
+Example - Closing resource
+function readFile() {
+    let file = openFile("data.txt"); // hypothetical
+    try {
+        console.log(file.readData());
+    } catch (err) {
+        console.log("Error reading file:", err.message);
+    } finally {
+        file.close(); // must run no matter what
+    }
+}
+
+If reading succeeds → finally still closes the file
+If reading fails → catch handles the error, then finally closes the file
+
+Without finally, you might forget to close resources, causing leaks or inconsistent state.
+
+finally is for cleanup / guaranteed execution
+
+🔹 Throwing Custom Errors
+
+function checkAge(age) {
+    if (age < 18) {
+        throw new Error("Age must be at least 18");
+    }
+    return "Access granted";
+}
+
+try {
+    console.log(checkAge(15));
+} catch (err) {
+    console.log("Error:", err.message);
+}
+//output
+Error: Age must be at least 18
+
+
+
+⚠️ Why Use Custom Errors
+Makes debugging easier
+Provides meaningful messages
+Improves code readability and maintenance
+
+No error path:
+try runs → no error
+finally runs
+Continue after try…finally
+
+
+Error occurs path:
+try runs → error
+catch runs → handles error
+finally runs → always executes
+Continue after try…catch…finally
