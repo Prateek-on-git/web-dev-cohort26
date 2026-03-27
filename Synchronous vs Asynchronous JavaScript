@@ -1,0 +1,109 @@
+Synchronous vs Asynchronous JavaScript
+
+🔹 What is Synchronous Code?
+
+👉 Synchronous = line-by-line execution
+
+Each task waits for the previous one to finish
+Nothing moves forward until the current task is done
+
+console.log("Start");
+console.log("Middle");
+console.log("End");
+
+//Start
+Middle
+End
+
+👉 Asynchronous = non-blocking execution
+
+Long tasks run in the background
+JavaScript does NOT wait
+Moves to next line immediately
+
+console.log("Start");
+
+setTimeout(() => {
+    console.log("Inside Timeout");
+}, 2000);
+
+console.log("End");
+
+
+
+//output
+Start
+End
+Inside Timeout
+
+
+
+
+💡 Why JavaScript Needs Asynchronous Behavior
+
+JavaScript is single-threaded (one thing at a time).
+
+👉 Without async behavior:
+
+App would freeze while waiting
+No user interaction possible
+Bad user experience
+
+
+🧠 Real-Life Analogy
+
+Ordering food 🍔
+
+Synchronous:
+You wait at the counter until food is ready (blocked)
+Asynchronous:
+You order → sit → get food when ready (non-blocking)
+
+🌐 Real Examples of Async Tasks
+API calls (fetching data from server)
+Timers (setTimeout, setInterval)
+File reading
+Database queries
+
+API Example
+console.log("Start");
+
+fetch("https://api.example.com/data")
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+console.log("End");
+
+//Output
+Start
+End
+(data comes later)
+
+
+Blocking vs Non-Blocking
+| Feature         | Blocking (Sync) ❌ | Non-Blocking (Async) ✅ |
+| --------------- | ----------------- | ---------------------- |
+| Execution       | One by one        | Parallel-like          |
+| Waiting         | Yes               | No                     |
+| Performance     | Poor              | Better                 |
+| User Experience | Freezes           | Smooth                 |
+
+
+
+🔄 How Async Works (Concept)
+
+👉 JavaScript uses:
+
+Call stack
+Web APIs
+Callback queue
+Call Stack → Web API → Callback Queue → Call Stack
+
+
+1. setTimeout goes to Web API
+2. Timer finishes
+3. Callback enters queue
+4. Runs when stack is empty
+
+
+
