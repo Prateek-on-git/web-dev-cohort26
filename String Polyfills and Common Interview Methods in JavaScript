@@ -1,0 +1,73 @@
+Understanding JavaScript String Methods and Polyfills
+
+JavaScript strings are one of the most common data types. 
+Knowing how to manipulate strings efficiently is crucial, not only for coding tasks but also for interviews.
+
+What String Methods Are
+String methods are built-in functions that let you manipulate, query, or transform strings.
+Examples include:
+length → property to get string length
+toUpperCase() → converts to uppercase
+slice() → extracts part of a string
+split() → breaks a string into an array
+replace() → replaces parts of a string
+
+const text = "Hello World";
+console.log(text.toUpperCase()); // "HELLO WORLD"
+console.log(text.slice(0, 5));   // "Hello"
+
+🔹 Why Developers Write Polyfills
+A polyfill is a custom implementation of a built-in method for older browsers or environments that don’t support it.
+Writing polyfills helps:
+Understand how a method works internally
+Ensure compatibility
+
+
+Example: Array.prototype.includes Polyfill
+
+if (!String.prototype.includes) {
+    String.prototype.includes = function(substring) {
+        return this.indexOf(substring) !== -1;
+    };
+}
+
+console.log("Hello World".includes("World")); // true
+
+
+🔹 Implementing Simple String Utilities
+1️⃣ Reverse a String
+
+
+function reverseString(str) {
+    let reversed = "";
+    for (let i = str.length - 1; i >= 0; i--) {
+        reversed += str[i];
+    }
+    return reversed;
+}
+
+console.log(reverseString("JavaScript")); // "tpircSavaJ"
+
+2️⃣ Capitalize First Letter
+function capitalize(str) {
+    if (!str) return "";
+    return str[0].toUpperCase() + str.slice(1);
+}
+
+console.log(capitalize("hello")); // "Hello"
+
+Palindrome Check
+
+function isPalindrome(str) {
+    const reversed = str.split("").reverse().join("");
+    return str === reversed;
+}
+
+console.log(isPalindrome("level")); // true
+
+🔹 Importance of Understanding Built-in Behavior
+Debugging → Know how your method works if it behaves unexpectedly
+Performance → Built-in methods are usually optimized
+Cross-browser coding → Some environments may not support newer methods
+
+
