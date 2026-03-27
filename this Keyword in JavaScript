@@ -1,0 +1,116 @@
+Understanding this in JavaScript
+💡 What this Represents
+
+👉 this refers to the object that is calling the function
+
+Think of it as:
+“Who is calling me right now?”
+
+🌍 this in Global Context
+console.log(this);
+👉 In browsers:
+this → window object
+👉 In Node.js:
+this → {} (module.exports)
+
+📦 this Inside Objects
+const user = {
+    name: "Rahul",
+    greet: function () {
+        console.log(this.name);
+    }
+};
+
+user.greet();
+
+Output - Rahul
+
+⚙️ this Inside Functions
+function show() {
+    console.log(this);
+}
+
+show();
+
+👉 In non-strict mode:
+this → global object (window)
+👉 In strict mode:
+"use strict";
+function show() {
+    console.log(this);
+}
+show();
+this → undefined
+
+🔄 How Calling Context Changes this
+🧠 Key Rule:
+👉 this depends on HOW a function is called, not where it is written
+
+Example 1: Same Function, Different Caller
+const person1 = {
+    name: "Amit",
+    greet: function () {
+        console.log(this.name);
+    }
+};
+
+const person2 = {
+    name: "Neha"
+};
+
+person2.greet = person1.greet;
+
+person1.greet(); // Amit
+person2.greet(); // Neha
+
+👉 The function is the same
+👉 But this changes based on the caller
+
+🔹 Example 2: Losing Context
+const user = {
+    name: "Rahul",
+    greet: function () {
+        console.log(this.name);
+    }
+};
+const fn = user.greet;
+fn();
+
+🔹 Example 2: Losing Context
+const user = {
+    name: "Rahul",
+    greet: function () {
+        console.log(this.name);
+    }
+};
+
+const fn = user.greet;
+fn();
+❌ Output:
+undefined
+
+👉 Why?
+
+Function is called without an object
+So this becomes global (or undefined in strict mode)
+
+
+| Scenario                          | Value of `this`    |
+| --------------------------------- | ------------------ |
+| Global scope                      | `window` (browser) |
+| Object method                     | The object itself  |
+| Regular function                  | Global / undefined |
+| Method assigned to another object | New object         |
+
+⚖️ Quick Comparison
+✅ Object Method
+obj.method(); // this = obj
+❌ Standalone Function
+method(); // this = window / undefined
+
+🎯 Key Takeaways
+this = who is calling the function
+It is determined at call time, not definition time
+Inside objects → this refers to the object
+In normal functions → global or undefined
+Changing the caller changes this
