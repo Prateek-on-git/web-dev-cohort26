@@ -1,0 +1,90 @@
+🔹 What new Does
+
+When you use new with a function:
+
+Creates a new empty object
+Sets the object’s prototype to the constructor’s prototype
+Calls the constructor function with this pointing to the new object
+Returns the new object (unless constructor explicitly returns another object)
+
+🔹 Constructor Functions
+A constructor function is just a regular function intended to create objects.
+By convention, its name starts with a capital letter.
+ 
+
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.greet = function() {
+        console.log(`Hello, I am ${this.name}`);
+    };
+}
+
+const person1 = new Person("Rahul", 25);
+const person2 = new Person("Neha", 30);
+
+person1.greet(); // Hello, I am Rahul
+person2.greet(); // Hello, I am Neha
+
+
+
+🔹 Step-by-Step Object Creation with new
+1. new Person("Rahul", 25)
+2. Creates empty object {}
+3. Links __proto__ to Person.prototype
+4. Calls Person() with this = new object
+5. Properties and methods added to this
+6. Returns the object
+
+🔹 Prototype Linking
+Every function in JS has a prototype property
+Objects created with new link their __proto__ to this prototype
+
+console.log(person1.__proto__ === Person.prototype); // true
+
+
+| Concept     | Example              |
+| ----------- | -------------------- |
+| Constructor | `Person` function    |
+| Instance    | `person1`, `person2` |
+| Prototype   | `Person.prototype`   |
+
+🔹 Prototype Sharing
+
+Person.prototype.sayBye = function() {
+    console.log(`${this.name} says bye`);
+};
+
+person1.sayBye(); // Rahul says bye
+person2.sayBye(); // Neha says bye
+
+Shared method is not duplicated in each instance
+Saves memory and keeps code DRY
+
+Person() function
+      |
+      | new
+      v
++----------------+
+| person1        | --> __proto__ --> Person.prototype
++----------------+
+| name: "Rahul"  |
+| age: 25        |
++----------------+
+
++----------------+
+| person2        | --> __proto__ --> Person.prototype
++----------------+
+| name: "Neha"   |
+| age: 30        |
++----------------+
+
+Key Takeaways
+new → creates a new object and links prototype
+Constructor function → blueprint for objects
+Instances → objects created by constructors
+Prototype → shared methods and properties
+
+
+
+
