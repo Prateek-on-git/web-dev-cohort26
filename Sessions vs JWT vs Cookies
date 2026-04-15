@@ -1,0 +1,129 @@
+Sessions
+
+A session is server-side storage that keeps track of a user’s login state.
+Server creates a session (e.g., session_id)
+Stores user data on the server (memory, DB, Redis)
+Sends the session ID to the client (usually via a cookie)
+
+
+Cookies
+A cookie is a small piece of data stored in the browser.
+Sent automatically with every request to the server
+Can store session IDs, JWTs, or other data
+
+
+JWT (JSON Web Token)
+A JWT is a self-contained token that includes user info and is signed.
+Stored on client (cookie, localStorage, etc.)
+Sent with each request (usually in headers)
+Server verifies signature instead of storing session
+
+
+Stateful vs Stateless Authentication
+Type	    Description
+Stateful	Server stores user session data
+Stateless	Server stores nothing; client sends all info
+
+Sessions → Stateful
+JWT → Stateless
+
+
+
+3. Authentication Flow Diagrams
+
+
+Session-Based Authentication Flow
+
+[User Login]
+     ↓
+[Server validates credentials]
+     ↓
+[Server creates session + session_id]
+     ↓
+[session_id sent via cookie]
+     ↓
+[Browser stores cookie]
+
+Next Requests:
+[Browser → sends cookie]
+     ↓
+[Server looks up session_id]
+     ↓
+[User authenticated]
+
+
+JWT Authentication Flow
+[User Login]
+     ↓
+[Server validates credentials]
+     ↓
+[Server creates JWT]
+     ↓
+[JWT sent to client]
+     ↓
+[Client stores JWT]
+
+Next Requests:
+[Client sends JWT (header/cookie)]
+     ↓
+[Server verifies signature]
+     ↓
+[User authenticated]
+
+
+
+Session vs JWT Comparison
+| Feature     | Sessions                      | JWT                       |
+| ----------- | ----------------------------- | ------------------------- |
+| Storage     | Server-side                   | Client-side               |
+| Type        | Stateful                      | Stateless                 |
+| Scalability | Harder (needs shared storage) | Easier (no server memory) |
+| Performance | Slightly slower (DB lookup)   | Faster (no lookup)        |
+| Revocation  | Easy (delete session)         | Hard (token still valid)  |
+| Security    | More controlled               | Depends on storage method |
+| Size        | Small (session ID)            | Larger (payload included) |
+| Best for    | Traditional web apps          | APIs, microservices       |
+
+
+| Concept                     | Sessions | JWT         |
+| --------------------------- | -------- | ----------- |
+| Who stores user data?       | Server   | Client      |
+| Needs database lookup?      | Yes      | No          |
+| Easy logout everywhere?     | Yes      | No (harder) |
+| Works well across services? | No       | Yes         |
+
+
+Where Cookies Fit In
+Cookies are just a transport mechanism, not an auth system.
+
+When to Use Each
+✅ Use Sessions When:
+You have a traditional web app
+You need easy logout / revocation
+You want strong control over user state
+Example:
+Admin dashboards
+Banking apps
+
+✅ Use JWT When:
+You’re building APIs / microservices
+You need scalability
+You have mobile + web clients
+Example:
+REST APIs
+Mobile apps
+
+
+Real-World Decision Guide
+👉 Choose Sessions if:
+You control the backend tightly
+Simplicity > scalability
+
+👉 Choose JWT if:
+You need distributed systems
+You want stateless architecture
+
+👉 Combine JWT + Cookies if:
+You want stateless auth + browser security
+
+
