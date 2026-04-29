@@ -1,0 +1,79 @@
+1. What is Node.js?
+
+Node.js is a runtime environment that allows you to run JavaScript outside the browser.
+Instead of being limited to web pages, you can build servers, tools, and
+backend applications using JavaScript.
+
+2. Installing Node.js (OS-neutral)
+Go to the official website: https://nodejs.org
+Download the LTS (Long Term Support) version
+Run the installer and follow the setup steps
+Ensure the option to add Node to your system PATH is enabled (usually default)
+
+node -v
+
+npm -v
+
+
+
+4. Understanding the REPL
+
+Before writing files, it's helpful to understand the REPL.
+REPL stands for:
+Read
+Eval
+Print
+Loop
+
+It’s an interactive environment where you can type JavaScript and see results instantly.
+
+Start it by typing:
+node
+
+> 2 + 3
+5
+> console.log("Hello")
+Hello
+.exit
+
+
+Running Your Script
+
+In the terminal, navigate to the file location and run:
+node app.js
+
+Output:
+Hello, Node.js!
+This shows how Node executes JavaScript outside the browser.
+
+
+Creating a Simple Hello World Server
+
+Now let’s create a basic server using Node’s built-in module:
+
+const http = require('http');
+const server = http.createServer((req, res) => {
+  res.end("Hello World from Node.js server!");
+});
+server.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});
+
+
+node app.js
+http://localhost:3000
+
+
+
+
+Your Script (app.js)
+        ↓
+Node.js Runtime
+        ↓
+V8 Engine executes JavaScript
+        ↓
+Output (Console / Server Response)
+
+
+
+[ JS File ] → [ Node Runtime ] → [ System Resources ] → [ Output ]
