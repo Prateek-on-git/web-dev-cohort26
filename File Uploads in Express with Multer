@@ -1,0 +1,277 @@
+📦 File Uploads in Express with Multer
+1. Why File Uploads Need Middleware
+
+When a client uploads a file, it doesn’t send JSON. 
+Instead, it sends data as multipart/form-data, which is:
+
+A special format for sending files + text together
+Sent as a stream of chunks, not a simple object
+Not automatically parsed by Express
+
+👉 That’s why middleware like Multer is needed:
+To read and parse incoming file streams
+To extract files and fields
+To store files properly
+
+📦 File Uploads in Express with Multer
+1. Why File Uploads Need Middleware
+When a client uploads a file, it doesn’t send JSON. 
+Instead, it sends data as multipart/form-data, which is:
+A special format for sending files + text together
+Sent as a stream of chunks, not a simple object
+Not automatically parsed by Express
+
+👉 That’s why middleware like Multer is needed:
+To read and parse incoming file streams
+To extract files and fields
+To store files properly
+
+
+What Multer Is
+
+Multer is an Express middleware specifically designed for handling:
+multipart/form-data
+File uploads
+
+👉 It does three main things:
+Parses incoming request
+Extracts files and text fields
+Stores files (disk or memory)
+
+Multipart Form-Data (Simple Explanation)
+Think of it like a package with multiple compartments:
+[ username = "john" ]
+[ profilePic = image.jpg ]
+[ resume = file.pdf ]
+Each part:
+Has its own headers (name, type)
+Is separated by boundaries
+👉 Unlike JSON:
+{ "file": ??? } ❌ not possible
+👉 Instead:
+Content-Type: multipart/form-data ✔
+
+
+Upload Lifecycle (Clear Flow)
+Client selects file
+        ↓
+Form sends multipart/form-data request
+        ↓
+Express receives request
+        ↓
+Multer intercepts request
+        ↓
+Parses fields → req.body
+Parses files → req.file / req.files
+        ↓
+Stores file (disk/cloud)
+        ↓
+Controller uses file info
+        ↓
+Response sent back
+
+
+
+
+
+Client → Server → Storage Flow
+[ Client (Browser / App) ]
+        |
+        | multipart/form-data request
+        | (file + text)
+        v
+[ Express Server ]
+        |
+        | Multer Middleware
+        | - parse
+        | - validate
+        v
+[ Storage ]
+   |            |
+   |            |
+[ Local Disk ] [ Cloud Storage ]
+        |
+        v
+[ File URL / Path ]
+        |
+        v
+[ Response to Client ]
+
+
+⚙️ Handling Single File Upload
+Example:
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+app.post('/upload', upload.single('avatar'), (req, res) => {
+  console.log(req.file);   // file info
+  console.log(req.body);   // text fields
+  res.send('File uploaded');
+});
+
+👉 Key points:
+
+upload.single('avatar')
+File stored in uploads/
+Access via req.file
+
+🖼️ Handling Multiple File Uploads
+Example:
+app.post('/photos', upload.array('photos', 5), (req, res) => {
+  console.log(req.files); // array of files
+  res.send('Files uploaded');
+});
+👉 Key points:
+upload.array(fieldName, maxCount)
+Files available in req.files
+
+
+⚙️ Storage Configuration Basics
+
+Default storage is simple, but you can customize it.
+Disk Storage Example:
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+👉 What you control:
+destination → where files go
+filename → how files are named
+
+
+
+Cloud Storage (Recommended for Production)
+
+Instead of saving locally:
+
+Use services like:
+AWS S3
+Cloudinary
+Firebase Storage
+
+👉 Flow:
+
+Multer (memory storage)
+        ↓
+Buffer received
+        ↓
+Upload to cloud API
+        ↓
+Get file URL
+        ↓
+Store URL in DB
+
+
+
+Serving Uploaded Files
+Option 1: Static Folder (Local)
+app.use('/uploads', express.static('uploads'));
+
+Access file:
+
+http://localhost:3000/uploads/file.jpg
+Option 2: Cloud URL
+
+If using cloud:
+
+You directly return URL like:
+https://cdn.example.com/image.jpg
+
+🧠 Quick Summary
+Express cannot handle file uploads alone
+Multer:
+Parses multipart/form-data
+Extracts files
+Stores them
+Use:
+single() → one file
+array() → multiple files
+Storage:
+Local (dev)
+Cloud (prod)
+
+
+
+
+[ Client (Browser / App) ]
+        |
+        |  (multipart/form-data request)
+        |  - file(s)
+        |  - text fields
+        v
+[ Express Server ]
+        |
+        |  (Multer Middleware)
+        |  - parses form-data
+        |  - extracts files
+        |  - validates (size/type)
+        v
+[ Storage Layer ]
+   |           |
+   |           |
+[ Local Disk ] [ Cloud Storage (S3, Cloudinary, etc.) ]
+        |
+        v
+[ File URL / Path returned ]
+        |
+        v
+[ Response to Client ]
+
+The browser cannot send files as JSON, so it uses multipart/form-data
+Multer sits between request and route handler
+Storage can be:
+local (uploads/)
+or cloud (recommended for production)
+
+Incoming Request
+      |
+      v
+[ Express Route ]
+      |
+      v
+[ Multer Middleware ]
+      |
+      |-- checks content-type (multipart/form-data)
+      |
+      |-- parses incoming stream
+      |
+      |-- processes fields
+      |     -> req.body
+      |
+      |-- processes file(s)
+      |     -> validates (size, mimetype)
+      |     -> stores file
+      |     -> adds metadata
+      |          -> req.file (single)
+      |          -> req.files (multiple)
+      |
+      v
+[ Next Middleware / Controller ]
+      |
+      |-- access:
+      |     req.file / req.files
+      |     req.body
+      |
+      v
+[ Send Response ]
+
+
+
+[ Multer Config ]
+      |
+      |-- storage
+      |     |-- diskStorage
+      |     |     -> destination
+      |     |     -> filename
+      |     |
+      |     |-- memoryStorage
+      |
+      |-- limits (file size)
+      |
+      |-- fileFilter (type validation)
